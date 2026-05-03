@@ -22,10 +22,9 @@ class Task(models.Model):
     priority = models.CharField(max_length=10,choices=PRIORITY_CHOICES,default='medium')
     due_date = models.DateTimeField()
 
-    project = models.ForeignKey(Project,on_delete=models.CASCADE,related_name='tasks')
-    assigned_to = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.SET_NULL,null=True,related_name='tasks')
+    project = models.ForeignKey(Project,on_delete=models.CASCADE,related_name='tasks',null=True,blank=True)
+    assigned_to = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.SET_NULL,null=True,blank=True,related_name='tasks')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
-    
