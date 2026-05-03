@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv/
+Django-CMSssM45/
+
+# Django
+*.log
+db.sqlite3
+media/
+
+# Environment variables
+.env
+
+# VS Code / IDE
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Migrations (optional - see note below)
+# **/migrations/*
+# !**/migrations/__init__.py
+
+# Static files (collected)
+staticfiles/
+
+# Coverage / testing
+.coverage
+htmlcov/
+
+# Docker
+*.env
+docker-compose.override.yml
