@@ -25,6 +25,7 @@ class Task(models.Model):
     project = models.ForeignKey(Project,on_delete=models.CASCADE,related_name='tasks',null=True,blank=True)
     assigned_to = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.SET_NULL,null=True,blank=True,related_name='tasks')
     created_at = models.DateTimeField(auto_now_add=True)
+    attachment = models.FileField(upload_to='tasks/', null=True, blank=True)
 
     def __str__(self):
         return self.title
