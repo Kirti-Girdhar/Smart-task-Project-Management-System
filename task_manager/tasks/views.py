@@ -64,7 +64,7 @@ class TaskViewSet(viewsets.ModelViewSet):
     ordering_fields= ['created_at','priority']
 
     def get_queryset(self):
-        return Task.objects.filter(assigned_to= self.request.user)
+        return Task.objects.filter(assigned_to= self.request.user).select_related('assigned_to')
     
     def perform_create(self, serializer):
         serializer.save(assigned_to=self.request.user)
