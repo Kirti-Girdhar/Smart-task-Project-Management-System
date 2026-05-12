@@ -13,3 +13,11 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.username
+    
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='profile')
+    bio = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.user.username
