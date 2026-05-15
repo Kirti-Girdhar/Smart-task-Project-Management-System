@@ -2,10 +2,12 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import viewsets
-from rest_framework.decorators import api_view,permission_classes
+from rest_framework.decorators import api_view,permission_classes,action
 from rest_framework.permissions import IsAuthenticated
 from tasks.serializers import TaskSerializer
 from tasks.models import Task
+from django.core.cache import cache
+
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
 from rest_framework.filters import OrderingFilter
@@ -68,3 +70,15 @@ class TaskViewSet(viewsets.ModelViewSet):
     
     def perform_create(self, serializer):
         serializer.save(assigned_to=self.request.user)
+        cache.delete('my_tasks')
+
+    @action(detail=False, methods=['GET'])
+    def cached_tasks(self, request):
+        cached_data= cache.get('my_tasks')
+        if cached_data:
+            return Response({'source':'cache', 'data':cached_data})
+        tasks=self.get_queryset()
+        self.serializer=self.get_serializer(tasks,many= True)
+        cache.set('my_tasks', self.serializer.data,timeout=60)
+        return Response({'source':'database', 'data': self.serializer.data})
+    
