@@ -14,7 +14,7 @@ class TaskSerializer(serializers.ModelSerializer):
     # def create(self, validated_data):
     #     request= self.context.get('request')
     #     user= request.user if request else None
-    #     # user= CustomUser.objects.first()
+    #     # user= CustomUser.objects.first() #for practice, no login user
 
     #     task= Task.objects.create(
     #         assigned_to= user,
