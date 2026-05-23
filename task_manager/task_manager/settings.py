@@ -63,6 +63,20 @@ REST_FRAMEWORK= {
         'rest_framework.pagination.PageNumberPagination',
 
     'PAGE_SIZE': 5,
+
+    'DEFAULT_THROTTLE_CLASSES': (
+
+        'rest_framework.throttling.AnonRateThrottle',
+
+        'rest_framework.throttling.UserRateThrottle',
+    ),
+
+    'DEFAULT_THROTTLE_RATES': {
+
+        'anon': '5/minute',
+
+        'user': '20/minute',
+    }
 }
 
 MIDDLEWARE = [
