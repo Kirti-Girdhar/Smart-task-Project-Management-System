@@ -1,3 +1,4 @@
+import logging
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
@@ -12,6 +13,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
 from rest_framework.filters import OrderingFilter
 
+logger = logging.getLogger(__name__)
 
 # @api_view(['GET', 'POST'])
 # @permission_classes([IsAuthenticated])
@@ -66,9 +68,11 @@ class TaskViewSet(viewsets.ModelViewSet):
     ordering_fields= ['created_at','priority']
 
     def get_queryset(self):
+        logger.info(f"Task retrieved by {self.request.user.username}")
         return Task.objects.filter(assigned_to= self.request.user).select_related('assigned_to')
     
     def perform_create(self, serializer):
+        logger.info(f"Task created by user: {self.request.user.username}")
         serializer.save(assigned_to=self.request.user)
         cache.delete('my_tasks')
 
