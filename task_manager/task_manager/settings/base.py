@@ -141,8 +141,8 @@ LOGGING = {
     "formatters": {
     "standard": {
         "format": "%(asctime)s %(levelname)s %(message)s",
+        },
     },
-},
 
     "handlers": {
         "console": {
