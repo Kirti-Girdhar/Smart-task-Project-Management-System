@@ -7,3 +7,4 @@ from users.models import CustomUser, UserProfile
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
+        print(f"Creating profile for user: {instance.username}")
