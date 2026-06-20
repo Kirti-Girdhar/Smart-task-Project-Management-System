@@ -29,8 +29,23 @@ PUT /api/tasks/{id}/
 
 ## Setup
 
+### Using Python
+
 ```bash
 pip install -r requirements.txt
 python manage.py migrate
 python manage.py runserver
+```
+
+### Using Docker
+
+```bash
+docker-compose up -d
+docker-compose exec web python manage.py migrate
+```
+
+To stop the containers:
+
+```bash
+docker-compose down
 ```
