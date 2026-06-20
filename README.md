@@ -1,14 +1,31 @@
-# Smart-task-Project-Management-System
-# Task Manager API
+# Smart Task & Project Management System
+
+A comprehensive Django-based project and task management system with JWT authentication, user roles, and advanced filtering capabilities.
 
 ## Features
-- Custom User Model
+- JWT Authentication
+- User Roles
 - Project Management
-- Task Management
+- Task Assignment
+- Filtering
+- Searching
+- Pagination
+- Docker
+- PostgreSQL
+- Testing
 
 ## Tech Stack
-- Django
-- Django REST Framework (coming soon)
+```
+Python, Django, Django REST Framework, PostgreSQL, Docker, JWT
+```
+
+## API Examples
+```
+POST /api/token/
+GET /api/tasks/
+POST /api/tasks/
+PUT /api/tasks/{id}/
+```
 
 ## Setup
 
@@ -16,3 +33,4 @@
 pip install -r requirements.txt
 python manage.py migrate
 python manage.py runserver
+```
