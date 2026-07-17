@@ -6,6 +6,7 @@ from django.utils import timezone
 
 from users.models import CustomUser
 from tasks.models import Task
+from comments.models import Comment
 
 class TaskAPITest(APITestCase):
     def setUp(self):
@@ -42,3 +43,33 @@ class TaskAPITest(APITestCase):
         response = self.client.post(reverse('task-list'),data)
         print(response.data)
         self.assertEqual(response.status_code,401)
+
+
+class CommentAPITest(APITestCase):
+    def setUp(self):
+        self.user = CustomUser.objects.create_user(
+            username='testuser',
+            password='testpassword'
+        )
+        self.client = APIClient()
+        self.client.force_authenticate(user=self.user)
+        
+        # Create a test task for comments
+        self.task = Task.objects.create(
+            title='Test Task',
+            description='Testing comments',
+            status='pending',
+            priority='high',
+            due_date=timezone.now(),
+            project=None
+        )
+
+    def test_create_comment(self):
+        data = {
+            'task': self.task.id,
+            'content': 'This is a test comment'
+        }
+        response = self.client.post(reverse('comments-list'), data)
+        print(response.data)
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(Comment.objects.count(), 1)
