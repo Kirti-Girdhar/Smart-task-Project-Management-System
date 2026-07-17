@@ -2,44 +2,72 @@
 
 Lightweight project and task management API built with Django and Django REST Framework.
 
-This repository implements JWT authentication, user roles, projects, tasks, attachments, and filtering/pagination for APIs. It includes Docker support for easy local development.
+This repository implements JWT authentication, user roles, projects, tasks, comments, and attachments. The API supports filtering, searching, pagination, and Docker-based local development.
 
-**Highlights**
-- JWT authentication (token obtain/refresh)
-- Role-based users and profiles
-- Projects, Tasks, Comments, and Attachments
-- Filtering, searching, and pagination on list endpoints
-- Docker + docker-compose for local dev
+## Project Overview
 
-**Tech stack**: Python, Django, Django REST Framework, SQLite/PostgreSQL, Docker
+Smart Task & Project Management System is an API-first backend for managing teams, projects, tasks, and collaboration. It provides authenticated endpoints for creating projects, assigning tasks, commenting, and tracking progress through a permissions-aware REST API.
 
----
+### Features
 
-## Quick start (local, Python)
+- JWT authentication with token obtain/refresh flows
+- User roles and profiles
+- Project creation, assignment, and owner-based visibility
+- Task creation, status updates, priorities, due dates, and attachments
+- Commenting on tasks
+- Search, filter, and pagination support on list endpoints
+- Docker and docker-compose for local development
+- Automated tests for API behavior and permissions
 
-1. Create and activate a virtualenv (Windows PowerShell):
+## Tech Stack
+
+- Python 3
+- Django
+- Django REST Framework
+- Django Filters
+- SQLite (default) / PostgreSQL-compatible configuration
+- Docker & docker-compose
+
+## Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/Kirti-Girdhar/Smart-task-Project-Management-System.git
+cd "Smart task & Project Management System"
+```
+
+2. Create and activate a virtual environment (Windows PowerShell):
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 ```
 
-2. Install dependencies and run migrations:
+3. Install dependencies:
 
 ```bash
 pip install -r requirements.txt
+```
+
+4. Run migrations and create a superuser:
+
+```bash
 python manage.py migrate
 python manage.py createsuperuser
+```
+
+5. Start the development server:
+
+```bash
 python manage.py runserver
 ```
 
-Open http://127.0.0.1:8000/ and use the API endpoints under `/api/`.
+Open `http://127.0.0.1:8000/` and use the API endpoints under `/api/`.
 
----
+## Docker Setup
 
-## Quick start (Docker)
-
-Build and run the services with docker-compose:
+Build and run the application with Docker:
 
 ```bash
 docker-compose up --build -d
@@ -53,65 +81,96 @@ To stop and remove containers:
 docker-compose down
 ```
 
----
+## Authentication
 
-## Environment / configuration
+The API uses JWT authentication.
 
-- For local development the project uses `settings/development.py`.
-- If using PostgreSQL or other services, set the appropriate `DATABASE_URL` or edit `task_manager/settings/*.py`.
-- Add any sensitive values to environment variables or a `.env` file (not committed).
+- Obtain token: `POST /api/token/`
+- Refresh token: `POST /api/token/refresh/`
 
----
+Example payload for token obtain:
 
-## Running tests
-
-Run the test suite locally:
-
-```bash
-pytest
+```json
+{
+  "username": "youruser",
+  "password": "yourpassword"
+}
 ```
 
-Or via manage.py:
+Include the access token in requests as:
+
+```
+Authorization: Bearer <access_token>
+```
+
+## API Endpoints
+
+### Authentication
+
+- `POST /api/token/`
+- `POST /api/token/refresh/`
+
+### Projects
+
+- `GET /api/projects/` — List projects for authenticated user
+- `POST /api/projects/` — Create a new project
+- `GET /api/projects/{id}/` — Retrieve a project
+- `PUT /api/projects/{id}/` — Update a project
+- `DELETE /api/projects/{id}/` — Delete a project
+
+### Tasks
+
+- `GET /api/tasks/`
+- `POST /api/tasks/`
+- `GET /api/tasks/{id}/`
+- `PUT /api/tasks/{id}/`
+- `DELETE /api/tasks/{id}/`
+
+### Comments
+
+- `GET /api/comments/`
+- `POST /api/comments/`
+- `GET /api/comments/{id}/`
+- `PUT /api/comments/{id}/`
+- `DELETE /api/comments/{id}/`
+
+> Note: The exact endpoint list may vary based on app routers and viewset configuration. Check the app URL modules in `task_manager/task_manager/urls.py` and each app folder.
+
+## Testing
+
+Run the full Django test suite:
 
 ```bash
 python manage.py test
 ```
 
----
+If you are using `pytest`:
 
-## Common management commands
+```bash
+pytest
+```
 
-- Apply migrations: `python manage.py migrate`
-- Create admin user: `python manage.py createsuperuser`
-- Collect static files (if needed): `python manage.py collectstatic --noinput`
+Run a specific test module:
 
----
+```bash
+python manage.py test tests.test_project_api
+```
 
-## API examples
+## Project Structure
 
-- Obtain token: `POST /api/token/` (username/password)
-- List tasks: `GET /api/tasks/`
-- Create task: `POST /api/tasks/`
-- Update task: `PUT /api/tasks/{id}/`
-
-Refer to the view modules under `tasks/`, `projects/`, and `users/` for the full set of endpoints.
-
----
-
-## Project structure (top-level)
-
-- `task_manager/` — Django project
-- `tasks/`, `projects/`, `users/`, `comments/` — main apps
-- `requirements.txt`, `docker-compose.yml`, `Dockerfile`
-
----
+- `task_manager/` — Django project configuration
+- `tasks/` — task management app
+- `projects/` — project management app
+- `users/` — custom user model and auth-related app
+- `comments/` — task comments app
+- `requirements.txt`, `Dockerfile`, `docker-compose.yml`
 
 ## Contributing
 
-1. Fork the repo and create a feature branch
-2. Add tests for new behavior
+1. Fork the repository and create a feature branch
+2. Add tests for any new behavior
 3. Open a pull request with a clear description
 
 ---
 
-If you'd like, I can add a small example curl/postman collection, expand the API docs, or include environment variable examples.
+If you want, I can also add example cURL requests or a Postman collection for the main API endpoints.
