@@ -1,3 +1,22 @@
 from django.shortcuts import render
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.permissions import IsAuthenticated
+
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter
+from projects.models import Project
+from projects.serializers import ProjectSerializer
 
 # Create your views here.
+class ProjectViewSet(ModelViewSet):
+    serializer_class = ProjectSerializer
+    permission_classes = [IsAuthenticated]
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filterset_fields = ['name']
+    search_fields = ['name']
+
+    def get_queryset(self):
+        return Project.objects.filter(owner=self.request.user)
+    
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
