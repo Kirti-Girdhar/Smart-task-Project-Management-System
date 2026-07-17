@@ -25,6 +25,9 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     queryset = Comment.objects.select_related('author', 'task')
 
+    def get_queryset(self):
+        return Comment.objects.select_related('author', 'task')
+
     def perform_create(self, serializer):
         serializer.save(
             author=self.request.user, 
