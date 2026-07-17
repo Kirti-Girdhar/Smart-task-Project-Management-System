@@ -6,7 +6,9 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter, SearchFilter
 from projects.models import Project
 from projects.serializers import ProjectSerializer
+import logging
 
+logger = logging.getLogger(__name__)
 # Create your views here.
 class ProjectViewSet(ModelViewSet):
     serializer_class = ProjectSerializer
@@ -20,4 +22,5 @@ class ProjectViewSet(ModelViewSet):
         return Project.objects.filter(owner=self.request.user)
     
     def perform_create(self, serializer):
+        logger.info(f"Creating project for user: {self.request.user.username}")
         serializer.save(owner=self.request.user)

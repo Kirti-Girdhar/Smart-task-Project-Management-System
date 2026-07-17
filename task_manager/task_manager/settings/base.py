@@ -1,6 +1,8 @@
 import os
 from dotenv import load_dotenv
 from pathlib import Path
+
+import drf_spectacular
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -23,6 +25,7 @@ INSTALLED_APPS = [
     'comments',
     'rest_framework',
     'django_filters',
+    'drf_spectacular',
 ]
 
 REST_FRAMEWORK= {
@@ -51,7 +54,9 @@ REST_FRAMEWORK= {
         'anon': '5/minute',
 
         'user': '20/minute',
-    }
+    },
+
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 MIDDLEWARE = [
@@ -136,6 +141,12 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
         'LOCATION': 'unique-snowflake',
     }
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Smart Task Management API',
+    'DESCRIPTION': 'Task Management System API',
+    'VERSION': '1.0.0',
 }
 
 LOGGING = {
