@@ -37,7 +37,17 @@ staticfiles/
 # Coverage / testing
 .coverage
 htmlcov/
+.pytest_cache/
 
 # Docker
 *.env
 docker-compose.override.yml
+
+# Local environment files
+.env.local
+.env.*
+.python-version
+
+# Misc
+*.sqlite3
+*.db
