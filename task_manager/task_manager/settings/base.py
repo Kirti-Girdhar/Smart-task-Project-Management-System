@@ -26,6 +26,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'drf_spectacular',
+    'organizations',
+    'memberships',
+    'workspace'
 ]
 
 REST_FRAMEWORK= {
