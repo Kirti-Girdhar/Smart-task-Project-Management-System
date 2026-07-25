@@ -143,6 +143,7 @@ CACHES = {
     }
 }
 
+
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Smart Task Management API',
     'DESCRIPTION': 'Task Management System API',
