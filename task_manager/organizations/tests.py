@@ -22,17 +22,14 @@ class OrganizationTests(APITestCase):
         )
 
     def test_create_organization(self):
-
         data = {
             "name": "ABC Software",
             "description": "Testing organization"
         }
-
         response = self.client.post(
             "/api/organizations/",
             data
         )
-
         self.assertEqual(
             response.status_code,
             status.HTTP_201_CREATED
